@@ -1,0 +1,9 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <CsvCodeStyleSettings>
+      <option name="SPACE_AFTER_SEPARATOR" value="true" />
+      <option name="TABULARIZE" value="true" />
+      <option name="ENABLE_WIDE_CHARACTER_DETECTION" value="true" />
+    </CsvCodeStyleSettings>
+  </code_scheme>
+</component>
