@@ -83,7 +83,7 @@ import java.time.ZonedDateTime;
 
 @Data
 public class Itinerary {
-    private String name;
+    private String airportName;
     private String iso;
     private String municipality;
     private String icao_code;
