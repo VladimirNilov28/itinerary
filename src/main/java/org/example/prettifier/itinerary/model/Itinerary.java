@@ -3,6 +3,7 @@ package org.example.prettifier.itinerary.model;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * 📌 Lombok Cheat Sheet (аннотации)
