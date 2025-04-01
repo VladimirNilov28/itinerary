@@ -1,8 +1,7 @@
 package org.example.prettifier.itinerary.model;
 
 import lombok.Data;
-
-import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,16 +78,11 @@ import java.util.List;
  */
 
 /*
-* Сущность для подробной информации о маршруте
+* Список для хранения большего количества данных
 * */
 
 //обёртка для ItineraryEntry
 @Data
 public class Itinerary {
-    private String airportName;
-    private String iso;
-    private String municipality;
-    private String icao_code;
-    private String iata_code;
-    private ZonedDateTime dateTime;
+    private List<ItineraryEntry> entries = new ArrayList<>();
 }

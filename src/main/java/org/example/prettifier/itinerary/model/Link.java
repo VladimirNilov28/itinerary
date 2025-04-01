@@ -27,11 +27,4 @@ public class Link {
         }
     }
 
-    public void setAIRPORT_LOOKUP_FILE(File AIRPORT_LOOKUP_FILE) {
-        if(AIRPORT_LOOKUP_FILE != null) {
-            this.AIRPORT_LOOKUP_FILE = AIRPORT_LOOKUP_FILE;
-        } else {
-            throw new IllegalArgumentException("Input file cannot be empty");
-        }
-    }
 }
