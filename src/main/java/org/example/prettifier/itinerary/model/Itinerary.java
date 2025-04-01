@@ -82,6 +82,7 @@ import java.util.List;
 * Сущность для подробной информации о маршруте
 * */
 
+//обёртка для ItineraryEntry
 @Data
 public class Itinerary {
     private String airportName;
