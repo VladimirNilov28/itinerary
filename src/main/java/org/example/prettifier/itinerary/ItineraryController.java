@@ -67,6 +67,12 @@ public class ItineraryController {
     }
 
     public void fileWriter() throws IOException {
+        if(link.getOUTPUT_FILE().exists() || link.getOUTPUT_FILE().length() != 0) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(link.getOUTPUT_FILE(), true))) {
 
+            }
+        } else {
+            //TODO обработка ошибки отсутствия оутпут файла
+        }
     }
 }

@@ -8,21 +8,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 @Getter
-public class ItineraryDTO extends Itinerary {
-    private final AirportsData airportsData;
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-    private Locale locale;
-
+public class ItineraryDTO {
     private String airportName;
     private String country;
-    private String municipality;
+    private String municipality; //city
     private String date;
     private String T12;
     private String T24;
 
-    //TODO Нужно сделать правильную генерацию DTO
-
-    public ItineraryDTO() {
-
+    public ItineraryDTO(ItineraryEntry itineraryEntry, AirportsData airportsData) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        DateTimeFormatter t12Formatter = DateTimeFormatter.ofPattern("hh:mma (XXX)", Locale.ENGLISH);
+        DateTimeFormatter t24Formatter = DateTimeFormatter.ofPattern("HH:mm (XXX)", Locale.ENGLISH);
+        this.airportName = airportsData.getLookup().get(itineraryEntry.getAirport_code()).getName();
+        this.country = Locale.of("", airportsData.getLookup().get(itineraryEntry.getAirport_code()).getIso_country()).getDisplayCountry(Locale.ENGLISH);
+        this.municipality = airportsData.getLookup().get(itineraryEntry.getAirport_code()).getMunicipality();
+        this.date = itineraryEntry.getDate_time().format(dateTimeFormatter);
+        this.T12 = itineraryEntry.getDate_time().format(t12Formatter);
+        this.T24 = itineraryEntry.getDate_time().format(t24Formatter);
     }
 }

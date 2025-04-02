@@ -1,4 +1,4 @@
-package org.example.prettifier.itinerary.controller;
+package org.example.prettifier.itinerary.services;
 
 import org.example.prettifier.itinerary.model.AirportRawData;
 import org.example.prettifier.itinerary.model.AirportsData;
@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Map;
 
 public class AirportLookupLoader {
 

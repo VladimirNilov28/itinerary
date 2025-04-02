@@ -1,7 +1,6 @@
 package org.example.prettifier;
 
-import org.example.prettifier.itinerary.ItineraryController;
-import org.example.prettifier.itinerary.controller.AirportLookupLoader;
+import org.example.prettifier.itinerary.services.AirportLookupLoader;
 import org.example.prettifier.itinerary.model.AirportsData;
 import org.example.prettifier.itinerary.model.Link;
 
