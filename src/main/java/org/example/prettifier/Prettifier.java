@@ -9,25 +9,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class Prettifier {
-    public static void main(String[] args) {
-//        Link link = new Link();
-//        link.setINPUT_FILE(new File(args[0]));
-//        link.setOUTPUT_FILE(new File(args[1]));
-
+    public static void main(String[] args) throws IOException {
+        Link link = new Link();
         AirportsData airportsData = new AirportsData();
         AirportLookupLoader loader = new AirportLookupLoader(airportsData);
-        try {
-            loader.load(new File("src/main/resources/airport-lookup.csv"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        int count = 0;
-        for (var entry : airportsData.getLookup().entrySet()) {
-            if (++count > 10) break;
-            System.out.println(entry);
-        }
-
+        link.setINPUT_FILE(new File(args[0]));
+        link.setOUTPUT_FILE(new File(args[1]));
+        loader.load(new File(args[2]));
 
     }
 }

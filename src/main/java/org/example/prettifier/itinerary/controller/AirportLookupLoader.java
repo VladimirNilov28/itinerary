@@ -32,7 +32,7 @@ public class AirportLookupLoader {
                     String municipality = parts[2];
                     String icao_code = parts[3];
                     String iata_code = parts[4];
-                    String coordinates = (parts[5].trim() + "," + parts[6].trim()).replace("\"", "");
+                    String coordinates = (parts[5].trim() + ", " + parts[6].trim()).replace("\"", "");
                     AirportRawData airportRawData = new AirportRawData(name, iso_country, municipality, icao_code, iata_code, coordinates);
 
                     if (!icao_code.isEmpty()) airportsData.getLookup().put(icao_code, airportRawData);
