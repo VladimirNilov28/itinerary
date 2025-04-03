@@ -3,10 +3,8 @@ package org.example.prettifier.itinerary.services;
 import org.example.prettifier.itinerary.model.AirportRawData;
 import org.example.prettifier.itinerary.model.AirportsData;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.MalformedInputException;
 
 public class AirportLookupLoader {
 
@@ -25,7 +23,24 @@ public class AirportLookupLoader {
                     line_number++;
                     if (line_number == 1 || line.startsWith("name,")) continue;
 
+                    if (line.isBlank()) {
+                        System.out.println("Airport lookup malformed");
+                        return;
+                    }
+
                     String[] parts = line.split(",", -1);
+
+                    if (parts.length < 7) {
+                        System.out.println("Airport lookup malformed");
+                        return;
+                    }
+
+                    for (String part : parts) {
+                        if (part.isBlank()) {
+                            System.out.println("Airport lookup malformed");
+                            return;
+                        }
+                    }
                     String name = parts[0];
                     String iso_country = parts[1];
                     String municipality = parts[2];
@@ -39,7 +54,7 @@ public class AirportLookupLoader {
                 }
             }
         } else {
-            //TODO обработка ошибки, если файл пустой или его нет
+            throw new FileNotFoundException("Airpot-lookup file not found");
         }
 
     }

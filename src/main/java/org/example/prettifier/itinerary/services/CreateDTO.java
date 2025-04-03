@@ -11,7 +11,7 @@ public class CreateDTO {
         this.airportsData = airportsData;
     }
 
-    public ItineraryDTO createDTO(ItineraryEntry itineraryEntry) {
+    public ItineraryDTO newDTO(ItineraryEntry itineraryEntry) {
        return new ItineraryDTO(itineraryEntry, airportsData);
     }
 }
