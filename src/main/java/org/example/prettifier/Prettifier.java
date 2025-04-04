@@ -1,11 +1,8 @@
 package org.example.prettifier;
 
 import org.example.prettifier.itinerary.ItineraryController;
-import org.example.prettifier.itinerary.model.Itinerary;
-import org.example.prettifier.itinerary.model.ItineraryDTO;
+import org.example.prettifier.itinerary.model.*;
 import org.example.prettifier.itinerary.services.AirportLookupLoader;
-import org.example.prettifier.itinerary.model.AirportsData;
-import org.example.prettifier.itinerary.model.Link;
 import org.example.prettifier.itinerary.services.FileReaderController;
 import org.example.prettifier.itinerary.services.FileWriterController;
 
@@ -23,7 +20,8 @@ public class Prettifier {
 
 
         AirportLookupLoader loader = new AirportLookupLoader(airportsData);
-        ItineraryController controller = new ItineraryController(null, link, itinerary, airportsData, fileWriterController, fileReaderController);
+        ItineraryController controller = new ItineraryController(
+                link, itinerary, airportsData, fileWriterController, fileReaderController);
 
         link.setINPUT_FILE(new File(args[0]));
         link.setOUTPUT_FILE(new File(args[1]));

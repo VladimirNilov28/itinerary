@@ -1,5 +1,6 @@
 package org.example.prettifier.itinerary.services;
 
+import org.example.prettifier.common.enums.ProgramMessages;
 import org.example.prettifier.itinerary.model.AirportsData;
 import org.example.prettifier.itinerary.model.Itinerary;
 import org.example.prettifier.itinerary.model.ItineraryDTO;
@@ -13,27 +14,53 @@ import java.util.List;
 
 public class FileWriterController {
     public void fileWriterController(File file, Itinerary itinerary,
-                                     AirportsData airportsData, ItineraryDTO itineraryDTO) throws IOException {
+                                     AirportsData airportsData) throws IOException {
         List<ItineraryEntry> entries = itinerary.getEntries();
         CreateDTO dto = new CreateDTO(airportsData);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             for (ItineraryEntry entry : entries) {
                 ItineraryDTO currentDTO = dto.newDTO(entry);
+
+                String airportName = currentDTO.getAirportName() != null ? currentDTO.getAirportName() : "";
+                String municipality = currentDTO.getMunicipality() != null ? currentDTO.getMunicipality() : "";
+                String t24 = currentDTO.getT24() != null ? currentDTO.getT24() : "";
+                String t12 = currentDTO.getT12() != null ? currentDTO.getT12() : "";
+                String date = currentDTO.getDate() != null ? currentDTO.getDate() : "";
+
                 if (entry.is_city_need()) {
-                    String fullName = currentDTO.getAirportName();
-                    if (currentDTO.getMunicipality() != null && !currentDTO.getMunicipality().isBlank()) {
-                        fullName += " " + currentDTO.getMunicipality();
-                    }
-                    writer.write(fullName.trim()); // trim — на всякий случай
+                    writer.write(airportName + " " + municipality);
                 } else {
-                    writer.write(currentDTO.getAirportName());
+                    writer.write(airportName);
                 }
                 switch (entry.getDate_time_format()) {
-                    case "T24" -> writer.write(currentDTO.getT24());
-                    case "T12" -> writer.write(currentDTO.getT12());
-                    case "D" -> writer.write(currentDTO.getDate());
+                    case "T24" -> {
+                        if (airportName.isEmpty()) {
+                            writer.write(t24);
+                        } else {
+                            writer.write(" " + t24);
+                        }
+                    }
+                    case "T12" -> {
+                        if (airportName.isEmpty()) {
+                            writer.write(t12);
+                        } else {
+                            writer.write(" " + t12);
+                        }
+                    }
+                    case "D" -> {
+                        if (airportName.isEmpty()) {
+                            writer.write(date);
+                        } else {
+                            writer.write(" " + date);
+                        }
+                    }
+                    default -> {
+                        writer.write("");
+                    }
                 }
+                writer.newLine();
             }
         }
+        System.out.println(ProgramMessages.FILE_HAS_WRITE.getMessage() + file.getAbsolutePath());
     }
 }
