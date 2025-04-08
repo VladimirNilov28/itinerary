@@ -21,11 +21,13 @@ public class FileReaderController {
                 lineNumber++;
                 if (line.isEmpty()) continue;
                 String airport_code = "";
-                ZonedDateTime date_time = null;
+                String date_time = "";
                 String date_time_format = "";
                 String code_type = "";
+                StringBuilder text = new StringBuilder();
                 boolean is_city_need = false;
                 for (int i = 0; i < line.length(); i++) {
+
                     if (i + 1 < line.length() && line.charAt(i) == '#' && line.charAt(i + 1) != '#') {
                         is_city_need = (line.charAt(i - 1) == '*');
                         code_type = "IATA";
@@ -40,15 +42,13 @@ public class FileReaderController {
                         date_time_format = startsWithAny(line, i, "T24", "T12", "D");
                         int start = line.indexOf('(', i);
                         int end = line.indexOf(')', start);
-                        try {
-                            date_time = (start != -1 && end != -1 && start < end)
-                                    ? ZonedDateTime.parse(line.substring(start + 1, end))
-                                    : null;
-                            i = end;
-                        } catch (DateTimeParseException e) {
-                            System.err.println(ErrorMessages.FILE_HASNT_WRITE.getMessage());
-                            throw new RuntimeException(ErrorMessages.DATE_TIME_FORMAT_EXCEPTION.getMessage() + " at line:" + lineNumber);
-                        }
+                        date_time = (start != -1 && end != -1 && start < end)
+                                ? line.substring(start + 1, end)
+                                : "";
+                        i = end;
+                    }
+                    else {
+                        text.append(line.charAt(i));
                     }
                 }
 //                System.out.printf("✅ Entry: code=%s | type=%s | city=%s | format=%s | date=%s%n",

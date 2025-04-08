@@ -2,9 +2,11 @@ package org.example.prettifier.itinerary.model;
 
 import lombok.Data;
 import lombok.Getter;
+import org.example.prettifier.common.enums.ProgramMessages;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
 @Getter
@@ -18,7 +20,6 @@ public class ItineraryDTO {
 
     public ItineraryDTO(ItineraryEntry itineraryEntry, AirportsData airportsData) {
         AirportRawData airport = airportsData.getLookup().get(itineraryEntry.getAirport_code());
-
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
         DateTimeFormatter t12Formatter = DateTimeFormatter.ofPattern("hh:mma (XXX)", Locale.ENGLISH);
         DateTimeFormatter t24Formatter = DateTimeFormatter.ofPattern("HH:mm (XXX)", Locale.ENGLISH);
@@ -29,9 +30,16 @@ public class ItineraryDTO {
                 : "";
         this.municipality = (airport != null && airport.getMunicipality() != null) ? airport.getMunicipality() : "";
 
-        ZonedDateTime dt = itineraryEntry.getDate_time();
-        this.date = dt != null ? dt.format(dateTimeFormatter) : "";
-        this.T12 = dt != null ? dt.format(t12Formatter) : "";
-        this.T24 = dt != null ? dt.format(t24Formatter) : "";
+        try {
+            ZonedDateTime dt = ZonedDateTime.parse(itineraryEntry.getDate_time());
+            this.date = dt.format(dateTimeFormatter);
+            this.T12 = dt.format(t12Formatter);
+            this.T24 = dt.format(t24Formatter);
+        } catch (DateTimeParseException e) {
+            this.date = itineraryEntry.getDate_time();
+            this.T12 = itineraryEntry.getDate_time();
+            this.T24 = itineraryEntry.getDate_time();
+        }
+
     }
 }

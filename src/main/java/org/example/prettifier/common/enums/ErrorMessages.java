@@ -11,7 +11,7 @@ public enum ErrorMessages {
     INPUT_FILE_EMPTY("Input file is empty"),
     OUTPUT_FILE_NOT_FOUND("Output file not found"),
     DATE_TIME_FORMAT_EXCEPTION("Incorrect date/time format"),
-    FILE_HASNT_WRITE("[ \u001B[31mOK\u001B[0m ] Writing to file: ");
+    FILE_HASNT_WRITE("[ \u001B[31mERROR\u001B[0m ] Writing to file: ");
 
     String message;
     ErrorMessages(String message) {
