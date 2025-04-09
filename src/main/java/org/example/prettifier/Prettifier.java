@@ -1,11 +1,13 @@
 package org.example.prettifier;
 
-import org.example.prettifier.common.enums.ProgramMessages;
+import org.example.prettifier.common.ProgramMessages;
 import org.example.prettifier.common.exceptions.AppExceptions;
 import org.example.prettifier.itinerary.ItineraryController;
 import org.example.prettifier.itinerary.model.*;
 import org.example.prettifier.itinerary.services.AirportLookupLoader;
 import org.example.prettifier.itinerary.services.FileFormaterController;
+import org.example.prettifier.itinerary.validators.ItineraryValidator;
+
 import java.io.IOException;
 
 public class Prettifier {
@@ -14,18 +16,16 @@ public class Prettifier {
         AirportsData airportsData = new AirportsData();
         AirportLookupLoader loader = new AirportLookupLoader(airportsData);
         Link link = new Link();
+        ItineraryValidator validator = new ItineraryValidator();
 
-        if (args.length == 0 || args[0].equals("-h")) {
-            System.out.println(ProgramMessages.CORRECT_PROGRAM_USAGE.getMessage());
-            System.exit(0);
-        }
+        validator.flagCheck(args);
 
         try {
             link.setINPUT_FILE(args[0]);
             link.setOUTPUT_FILE(args[1]);
             link.setAIRPORT_LOOKUP_FILE(args[2]);
         } catch (AppExceptions e) {
-            System.err.println(e.getMessage() + ProgramMessages.CORRECT_PROGRAM_USAGE.getMessage());
+            System.err.println(e.getMessage() + "\n" + ProgramMessages.CORRECT_PROGRAM_USAGE);
         }
 
         try {
@@ -40,6 +40,4 @@ public class Prettifier {
     }
 }
 
-/*TODO нужно переделать логику считывания файла, в одной строке может быть больше одной даты так и кода.
-Должно сохраняться изначальный текст
-* */
+//TODO Убрать лишние пропуски при создании output доделать перехват ошибок

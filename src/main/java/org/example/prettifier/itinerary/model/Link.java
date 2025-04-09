@@ -1,6 +1,7 @@
 package org.example.prettifier.itinerary.model;
 
 import lombok.Getter;
+import org.example.prettifier.common.ProgramMessages;
 import org.example.prettifier.common.exceptions.ArgsFormatException;
 
 import java.io.File;
@@ -15,7 +16,7 @@ public class Link {
         if(INPUT_FILE != null && !INPUT_FILE.isEmpty()) {
             this.INPUT_FILE = new File(INPUT_FILE);
         } else {
-            throw new ArgsFormatException();
+            throw new ArgsFormatException(ProgramMessages.CORRECT_PROGRAM_USAGE);
         }
     }
 
@@ -23,7 +24,7 @@ public class Link {
         if(OUTPUT_FILE != null && !OUTPUT_FILE.isEmpty()) {
             this.OUTPUT_FILE = new File(OUTPUT_FILE);
         } else {
-            throw new ArgsFormatException();
+            throw new ArgsFormatException(ProgramMessages.CORRECT_PROGRAM_USAGE);
         }
     }
 
@@ -31,7 +32,7 @@ public class Link {
         if(AIRPORT_LOOKUP_FILE != null && !AIRPORT_LOOKUP_FILE.isEmpty()) {
             this.AIRPORT_LOOKUP_FILE = new File(AIRPORT_LOOKUP_FILE);
         } else {
-            throw new ArgsFormatException();
+            throw new ArgsFormatException(ProgramMessages.CORRECT_PROGRAM_USAGE);
         }
     }
 

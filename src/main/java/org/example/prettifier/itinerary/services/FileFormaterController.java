@@ -1,6 +1,5 @@
 package org.example.prettifier.itinerary.services;
 
-import org.example.prettifier.common.enums.ProgramMessages;
 import org.example.prettifier.itinerary.model.AirportsData;
 import org.example.prettifier.itinerary.model.Link;
 

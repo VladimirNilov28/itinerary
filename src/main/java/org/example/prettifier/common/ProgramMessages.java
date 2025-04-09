@@ -1,7 +1,5 @@
-package org.example.prettifier.common.enums;
+package org.example.prettifier.common;
 
-
-import org.example.prettifier.itinerary.model.Link;
 
 public enum ProgramMessages {
     CORRECT_PROGRAM_USAGE("""
@@ -16,7 +14,8 @@ public enum ProgramMessages {
         this.message = message;
     }
 
-    public String getMessage() {
+    @Override
+    public String toString() {
         return message;
     }
 }

@@ -17,15 +17,13 @@ public class ItineraryController {
         this.fileFormaterController = fileFormaterController;
     }
 
-
-
     public void fileFormater() throws IOException {
         if (link.getINPUT_FILE().exists() && link.getOUTPUT_FILE().exists()) {
             fileFormaterController.formater(link);
         } else if (!link.getOUTPUT_FILE().exists()) {
-            throw new FileNotFound();
+            throw new FileNotFound(link.getOUTPUT_FILE());
         } else {
-            throw new FileNotFound();
+            throw new FileNotFound(link.getINPUT_FILE());
         }
     }
 
