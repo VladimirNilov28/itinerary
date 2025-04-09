@@ -4,8 +4,10 @@ package org.example.prettifier.common.enums;
 import org.example.prettifier.itinerary.model.Link;
 
 public enum ProgramMessages {
-    FILE_WRITE_OK("[ \u001B[32mOK\u001B[0m ] Writing to file: "),
-    FILE_WRITE_WARN("[ \u001B[33mWARN\u001B[0m ] Something went wrong when writing to file "),;
+    CORRECT_PROGRAM_USAGE("""
+            Default usage:
+                $ java -cp target/classes org.example.prettifier.Prettifier <INPUT FILE> <OUTPUT FILE> <AIRPORT LOOKUP FILE>
+            """);
 
 
     private final String message;

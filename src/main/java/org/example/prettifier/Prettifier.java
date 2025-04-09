@@ -1,26 +1,40 @@
 package org.example.prettifier;
 
+import org.example.prettifier.common.enums.ProgramMessages;
+import org.example.prettifier.common.exceptions.AppExceptions;
 import org.example.prettifier.itinerary.ItineraryController;
 import org.example.prettifier.itinerary.model.*;
 import org.example.prettifier.itinerary.services.AirportLookupLoader;
-//import org.example.prettifier.itinerary.services.FileReaderController;
-//import org.example.prettifier.itinerary.services.FileWriterController;
-
-import java.io.File;
+import org.example.prettifier.itinerary.services.FileFormaterController;
 import java.io.IOException;
 
 public class Prettifier {
 
     public static void main(String[] args) throws IOException {
-        Link link = new Link();
-        link.setINPUT_FILE(new File(args[0]));
-        link.setOUTPUT_FILE(new File(args[1]));
-
         AirportsData airportsData = new AirportsData();
         AirportLookupLoader loader = new AirportLookupLoader(airportsData);
-        loader.load(new File(args[2]));
+        Link link = new Link();
 
-        ItineraryController controller = new ItineraryController(link, airportsData);
+        if (args.length == 0 || args[0].equals("-h")) {
+            System.out.println(ProgramMessages.CORRECT_PROGRAM_USAGE.getMessage());
+            System.exit(0);
+        }
+
+        try {
+            link.setINPUT_FILE(args[0]);
+            link.setOUTPUT_FILE(args[1]);
+            link.setAIRPORT_LOOKUP_FILE(args[2]);
+        } catch (AppExceptions e) {
+            System.err.println(e.getMessage() + ProgramMessages.CORRECT_PROGRAM_USAGE.getMessage());
+        }
+
+        try {
+            loader.load(link.getAIRPORT_LOOKUP_FILE());
+        } catch (AppExceptions e) {
+            System.err.println(e.getMessage() + ":" + link.getAIRPORT_LOOKUP_FILE().getAbsolutePath());
+        }
+
+        ItineraryController controller = new ItineraryController(link, new FileFormaterController(airportsData));
         controller.fileFormater();
 
     }

@@ -1,11 +1,12 @@
 package org.example.prettifier.itinerary.services;
 
-import org.example.prettifier.common.enums.ErrorMessages;
+import org.example.prettifier.common.exceptions.ErrorMessages;
+import org.example.prettifier.common.exceptions.AirportLookupMalformed;
+import org.example.prettifier.common.exceptions.FileNotFound;
 import org.example.prettifier.itinerary.model.AirportRawData;
 import org.example.prettifier.itinerary.model.AirportsData;
 
 import java.io.*;
-import java.nio.charset.MalformedInputException;
 
 public class AirportLookupLoader {
 
@@ -25,18 +26,18 @@ public class AirportLookupLoader {
                     if (line_number == 1 || line.startsWith("name,")) continue;
 
                     if (line.isBlank()) {
-                        throw new IllegalStateException(ErrorMessages.AIRPORT_LOOKUP_MALFORMED.getMessage());
+                        throw new AirportLookupMalformed();
                     }
 
                     String[] parts = line.split(",", -1);
 
                     if (parts.length < 7) {
-                        throw new IllegalStateException(ErrorMessages.AIRPORT_LOOKUP_MALFORMED.getMessage());
+                        throw new AirportLookupMalformed();
                     }
 
                     for (String part : parts) {
                         if (part.isBlank()) {
-                            throw new IllegalStateException(ErrorMessages.AIRPORT_LOOKUP_MALFORMED.getMessage());
+                            throw new AirportLookupMalformed();
                         }
                     }
                     String name = parts[0];
@@ -52,7 +53,7 @@ public class AirportLookupLoader {
                 }
             }
         } else {
-            throw new FileNotFoundException(ErrorMessages.AIRPORT_LOOKUP_NOT_FOUND.getMessage());
+            throw new FileNotFound();
         }
 
     }

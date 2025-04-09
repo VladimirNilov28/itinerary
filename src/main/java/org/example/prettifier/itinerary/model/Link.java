@@ -1,7 +1,7 @@
 package org.example.prettifier.itinerary.model;
 
-import lombok.Data;
 import lombok.Getter;
+import org.example.prettifier.common.exceptions.ArgsFormatException;
 
 import java.io.File;
 
@@ -11,19 +11,27 @@ public class Link {
     private File OUTPUT_FILE;
     private File AIRPORT_LOOKUP_FILE;
 
-    public void setINPUT_FILE(File INPUT_FILE) {
-        if(INPUT_FILE != null) {
-            this.INPUT_FILE = INPUT_FILE;
+    public void setINPUT_FILE(String INPUT_FILE) {
+        if(INPUT_FILE != null && !INPUT_FILE.isEmpty()) {
+            this.INPUT_FILE = new File(INPUT_FILE);
         } else {
-            throw new IllegalArgumentException("Input file cannot be empty");
+            throw new ArgsFormatException();
         }
     }
 
-    public void setOUTPUT_FILE(File OUTPUT_FILE) {
-        if(OUTPUT_FILE != null) {
-            this.OUTPUT_FILE = OUTPUT_FILE;
+    public void setOUTPUT_FILE(String OUTPUT_FILE) {
+        if(OUTPUT_FILE != null && !OUTPUT_FILE.isEmpty()) {
+            this.OUTPUT_FILE = new File(OUTPUT_FILE);
         } else {
-            throw new IllegalArgumentException("Input file cannot be empty");
+            throw new ArgsFormatException();
+        }
+    }
+
+    public void setAIRPORT_LOOKUP_FILE(String AIRPORT_LOOKUP_FILE) {
+        if(AIRPORT_LOOKUP_FILE != null && !AIRPORT_LOOKUP_FILE.isEmpty()) {
+            this.AIRPORT_LOOKUP_FILE = new File(AIRPORT_LOOKUP_FILE);
+        } else {
+            throw new ArgsFormatException();
         }
     }
 
