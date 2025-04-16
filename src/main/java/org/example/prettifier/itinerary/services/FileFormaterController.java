@@ -25,9 +25,19 @@ public class FileFormaterController {
              BufferedWriter writer = new BufferedWriter(new FileWriter(link.getOUTPUT_FILE()))) {
             String line;
             int line_num = 0;
+            int empty_line = 0;
             boolean is_city_need = false;
             while ((line = reader.readLine()) != null) {
                 line_num++;
+                if (line.trim().isEmpty()) {
+                    empty_line++;
+                    if (empty_line > 1) {
+                        continue; // пропускаем лишнюю пустую строку
+                    }
+                } else {
+                    empty_line = 0; // сброс, когда встретили непустую строку
+                }
+                line = line.replaceAll("\\s+", " ").trim();
                 for (int i = 0; i < line.length(); i++) {
                     if (i + 1 < line.length() && line.charAt(i) == '#' && line.charAt(i + 1) != '#') {
                         is_city_need = (line.charAt(i - 1) == '*');
@@ -59,11 +69,11 @@ public class FileFormaterController {
                             writer.write(date_time_format + "(" + line.substring(start + 1, end) + ")");
                         }
                         i = end;
-                    }
-                    else {
+                    } else {
                         writer.write(Character.toString(line.charAt(i)));
                     }
                 }
+
                 writer.newLine();
             }
         }
@@ -83,4 +93,5 @@ public class FileFormaterController {
         }
         return null;
     }
+
 }
