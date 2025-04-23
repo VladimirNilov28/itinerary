@@ -1,6 +1,5 @@
 package org.example.prettifier.itinerary.services;
 
-import org.example.prettifier.common.exceptions.ErrorMessages;
 import org.example.prettifier.common.exceptions.AirportLookupMalformed;
 import org.example.prettifier.common.exceptions.FileEmpty;
 import org.example.prettifier.common.exceptions.FileNotFound;
@@ -53,10 +52,10 @@ public class AirportLookupLoader {
                     if (!iata_code.isEmpty()) airportsData.getLookup().put(iata_code, airportRawData);
                 }
             }
-        } else if (file.length() == 0) {
-            throw new FileEmpty(file);
         } else {
-            throw new FileNotFound(file);
+            throw (!file.exists()
+                    ? new FileNotFound(file.getName())
+                    : new FileEmpty(file.getName()));
         }
 
     }

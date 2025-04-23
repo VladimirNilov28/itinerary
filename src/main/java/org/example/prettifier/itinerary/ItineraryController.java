@@ -1,6 +1,5 @@
 package org.example.prettifier.itinerary;
 
-import org.example.prettifier.common.exceptions.ErrorMessages;
 import org.example.prettifier.common.exceptions.FileNotFound;
 import org.example.prettifier.itinerary.model.*;
 import org.example.prettifier.itinerary.services.FileFormaterController;
@@ -20,10 +19,10 @@ public class ItineraryController {
     public void fileFormater() throws IOException {
         if (link.getINPUT_FILE().exists() && link.getOUTPUT_FILE().exists()) {
             fileFormaterController.formater(link);
-        } else if (!link.getOUTPUT_FILE().exists()) {
-            throw new FileNotFound(link.getOUTPUT_FILE());
+        } else if (!link.getINPUT_FILE().exists()) {
+            throw new FileNotFound(link.getINPUT_FILE().getName());
         } else {
-            throw new FileNotFound(link.getINPUT_FILE());
+            throw new FileNotFound(link.getOUTPUT_FILE().getName());
         }
     }
 

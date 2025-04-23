@@ -18,9 +18,8 @@ public class Prettifier {
         Link link = new Link();
         ItineraryValidator validator = new ItineraryValidator();
 
-        validator.flagCheck(args);
-
         try {
+            validator.flagCheck(args);
             link.setINPUT_FILE(args[0]);
             link.setOUTPUT_FILE(args[1]);
             link.setAIRPORT_LOOKUP_FILE(args[2]);
@@ -31,11 +30,16 @@ public class Prettifier {
         try {
             loader.load(link.getAIRPORT_LOOKUP_FILE());
         } catch (AppExceptions e) {
-            System.err.println(e.getMessage() + ":" + link.getAIRPORT_LOOKUP_FILE().getAbsolutePath());
+            System.err.println(e.getMessage() + ": " + link.getAIRPORT_LOOKUP_FILE().getAbsolutePath());
         }
 
         ItineraryController controller = new ItineraryController(link, new FileFormaterController(airportsData));
-        controller.fileFormater();
+
+        try {
+            controller.fileFormater();
+        } catch (AppExceptions e) {
+            System.err.println(e.getMessage() + "\n" + ProgramMessages.CORRECT_PROGRAM_USAGE);
+        }
 
     }
 }
