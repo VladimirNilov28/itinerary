@@ -5,12 +5,14 @@ import org.example.prettifier.common.exceptions.AppExceptions;
 import org.example.prettifier.itinerary.ItineraryService;
 import org.example.prettifier.itinerary.model.AirportsData;
 import org.example.prettifier.itinerary.model.Link;
+import org.example.prettifier.itinerary.model.Stats;
 import org.example.prettifier.itinerary.services.AirportLookupLoader;
 import org.example.prettifier.itinerary.services.FileFormaterController;
 import org.example.prettifier.itinerary.services.OutputService;
 import org.example.prettifier.itinerary.validators.ItineraryValidator;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 public class PrettifierRunner {
     public void run(String[] args) throws IOException {
@@ -18,6 +20,7 @@ public class PrettifierRunner {
         AirportLookupLoader loader = new AirportLookupLoader(airportsData);
         Link link = new Link();
         ItineraryValidator validator = new ItineraryValidator();
+        Stats stats = new Stats();
 
         try {
             validator.flagCheck(args);
@@ -41,7 +44,7 @@ public class PrettifierRunner {
             System.exit(1);
         }
 
-        ItineraryService controller = new ItineraryService(link, new FileFormaterController(airportsData));
+        ItineraryService controller = new ItineraryService(link, new FileFormaterController(airportsData), stats);
 
         try {
             controller.fileFormater();
@@ -50,7 +53,12 @@ public class PrettifierRunner {
             System.exit(1);
         }
 
-        System.out.println(ProgramMessages.OPERATION_OK.toString() + " Result saved to: " + link.getOUTPUT_FILE().getAbsolutePath());
+        System.out.println(ProgramMessages.OPERATION_OK + " Result saved to: " + link.getOUTPUT_FILE().getAbsolutePath());
+        System.out.printf("""
+                       \u001B[32mLines processed:\u001B[0m      \u001B[36m%d\u001B[0m
+                       \u001B[32mAirports resolved:\u001B[0m    \u001B[36m%d\u001B[0m
+                       \u001B[32mDates reformatted:\u001B[0m    \u001B[36m%d\u001B[0m
+                """, stats.getLines(), stats.getAirports_resolved(), stats.getDates_reformatted());
 
     }
 }

@@ -11,11 +11,26 @@ public class OutputService {
         try(Scanner scanner = new Scanner(System.in)) {
             var output = link.getOUTPUT_FILE();
             if (!output.exists()) {
-                System.out.print(ProgramMessages.CREATE_OUTPUT_FILE.toString());
-                return scanner.nextLine().equals("y") && output.createNewFile();
+                while (true) {
+                    System.out.print(ProgramMessages.CREATE_OUTPUT_FILE.toString());
+                    String input = scanner.nextLine();
+                    if (input.equals("y")) {
+                        return output.createNewFile();
+                    } else if (input.equals("n")) {
+                        return false;
+                    }
+                }
             } else {
-                System.out.print(ProgramMessages.OVERWRITE_OUTPUT_FILE.toString());
-                return scanner.nextLine().equalsIgnoreCase("y");
+                while (true) {
+                    System.out.print(ProgramMessages.OVERWRITE_OUTPUT_FILE.toString());
+                    String input = scanner.nextLine();
+                    if (input.equals("y")) {
+                        return true;
+                    } else if (input.equals("n")) {
+                        return false;
+                    }
+                }
+
             }
         }
     }

@@ -1,4 +1,4 @@
-# ✈️ Prettifier — Route and Timestamp Formatter
+# ✈️ Prettifier [v1.0.0] — Route and Timestamp Formatter 
 
 A simple Java-based CLI tool that reads an input file with airport codes and timestamps, formats them into a human-readable form, and outputs the result to a new file using a provided airport lookup CSV.
 
@@ -37,6 +37,12 @@ java -cp target/classes org.example.prettifier.Prettifier -h
 ```
 
 Displays correct usage instructions for the program.
+
+```bash
+java -cp target/classes org.example.prettifier.Prettifier --version
+```
+
+Displays current version
 
 ---
 

@@ -10,15 +10,17 @@ public class ItineraryService {
 
     private final Link link;
     private final FileFormaterController fileFormaterController;
+    private final Stats stats;
 
-    public ItineraryService(Link link, FileFormaterController fileFormaterController) {
+    public ItineraryService(Link link, FileFormaterController fileFormaterController, Stats stats) {
         this.link = link;
         this.fileFormaterController = fileFormaterController;
+        this.stats = stats;
     }
 
     public void fileFormater() throws IOException {
         if (link.getINPUT_FILE().exists() && link.getOUTPUT_FILE().exists()) {
-            fileFormaterController.formater(link);
+            fileFormaterController.formater(link, stats);
         } else if (!link.getINPUT_FILE().exists()) {
             throw new FileNotFound(link.getINPUT_FILE().getName());
         } else {
