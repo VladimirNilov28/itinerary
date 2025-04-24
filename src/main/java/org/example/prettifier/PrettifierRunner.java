@@ -2,11 +2,12 @@ package org.example.prettifier;
 
 import org.example.prettifier.common.ProgramMessages;
 import org.example.prettifier.common.exceptions.AppExceptions;
-import org.example.prettifier.itinerary.ItineraryController;
+import org.example.prettifier.itinerary.ItineraryService;
 import org.example.prettifier.itinerary.model.AirportsData;
 import org.example.prettifier.itinerary.model.Link;
 import org.example.prettifier.itinerary.services.AirportLookupLoader;
 import org.example.prettifier.itinerary.services.FileFormaterController;
+import org.example.prettifier.itinerary.services.OutputService;
 import org.example.prettifier.itinerary.validators.ItineraryValidator;
 
 import java.io.IOException;
@@ -28,6 +29,11 @@ public class PrettifierRunner {
             System.exit(1);
         }
 
+        if(!new OutputService().ensureOutputFile(link)) {
+            System.out.println("Operation was cancelled.");
+            System.exit(0);
+        }
+
         try {
             loader.load(link.getAIRPORT_LOOKUP_FILE());
         } catch (AppExceptions e) {
@@ -35,8 +41,7 @@ public class PrettifierRunner {
             System.exit(1);
         }
 
-        ItineraryController controller = new ItineraryController(link, new FileFormaterController(airportsData));
-        //TODO разобраться с аргументами контроллера
+        ItineraryService controller = new ItineraryService(link, new FileFormaterController(airportsData));
 
         try {
             controller.fileFormater();
@@ -44,6 +49,8 @@ public class PrettifierRunner {
             System.err.println(e.getMessage() + "\n" + ProgramMessages.CORRECT_PROGRAM_USAGE);
             System.exit(1);
         }
+
+        System.out.println(ProgramMessages.OPERATION_OK.toString() + " Result saved to: " + link.getOUTPUT_FILE().getAbsolutePath());
 
     }
 }

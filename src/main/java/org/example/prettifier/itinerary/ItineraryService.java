@@ -6,12 +6,12 @@ import org.example.prettifier.itinerary.services.FileFormaterController;
 
 import java.io.*;
 
-public class ItineraryController {
+public class ItineraryService {
 
     private final Link link;
     private final FileFormaterController fileFormaterController;
 
-    public ItineraryController(Link link, FileFormaterController fileFormaterController) {
+    public ItineraryService(Link link, FileFormaterController fileFormaterController) {
         this.link = link;
         this.fileFormaterController = fileFormaterController;
     }
