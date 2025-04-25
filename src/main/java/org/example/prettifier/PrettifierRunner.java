@@ -12,7 +12,6 @@ import org.example.prettifier.itinerary.services.OutputService;
 import org.example.prettifier.itinerary.validators.ItineraryValidator;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
 
 public class PrettifierRunner {
     public void run(String[] args) throws IOException {

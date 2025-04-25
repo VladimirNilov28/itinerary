@@ -39,22 +39,31 @@ public class FileFormaterController {
                 } else {
                     empty_line = 0; // сброс, когда встретили непустую строку
                 }
-                line = line.replaceAll("\\s+", " ").trim();
+                line = line
+                        .replace("\\v", "\n")
+                        .replace("\\f", "\n")
+                        .replace("\\r", "\n")
+                        .replaceAll("[ ]*\n[ ]*", "\n")
+                        .trim();
                 for (int i = 0; i < line.length(); i++) {
                     if (i + 1 < line.length() && line.charAt(i) == '#' && line.charAt(i + 1) != '#') {
-                        is_city_need = (line.charAt(i - 1) == '*');
+                        is_city_need = (i > 0 && line.charAt(i - 1) == '*');
                         //code_type = "IATA";
-                        String airport_code = line.substring(i + 1, i + 4);
-                        writer.write(isCityNeed(airport_code, is_city_need));
-                        i += 4;
-                        stats.appendAirportsResolved(1);
+                        if (i + 4 <= line.length()) {
+                            String airport_code = line.substring(i + 1, i + 4);
+                            writer.write(isCityNeed(airport_code, is_city_need));
+                            i += 4;
+                            stats.appendAirportsResolved(1);
+                        }
                     } else if (line.startsWith("##", i)) {
-                        is_city_need = (line.charAt(i - 1) == '*');
+                        is_city_need = (i > 0 && line.charAt(i - 1) == '*');
                         //code_type = "ICAO";
-                        String airport_code = line.substring(i + 2, i + 6);
-                        writer.write(isCityNeed(airport_code, is_city_need));
-                        i += 6;
-                        stats.appendAirportsResolved(1);
+                        if (i + 6 <= line.length()) {
+                            String airport_code = line.substring(i + 2, i + 6);
+                            writer.write(isCityNeed(airport_code, is_city_need));
+                            i += 6;
+                            stats.appendAirportsResolved(1);
+                        }
                     } else if (startsWithAny(line, i, "T24", "T12", "D") != null) {
                         String date_time_format = startsWithAny(line, i, "T24", "T12", "D");
                         int start = line.indexOf('(', i);
@@ -64,8 +73,8 @@ public class FileFormaterController {
                                     ? ZonedDateTime.parse(line.substring(start + 1, end))
                                     : null;
                             switch (String.valueOf(date_time_format)) {
-                                case "T24" -> writer.write(date_time.format(t24Formatter));
-                                case "T12" -> writer.write(date_time.format(t12Formatter));
+                                case "T24" -> writer.write(date_time.format(t24Formatter).replace("Z", "+00:00"));
+                                case "T12" -> writer.write(date_time.format(t12Formatter).replace("Z", "+00:00"));
                                 case "D" -> writer.write(date_time.format(dateFormatter));
                                 default -> writer.write("");
                             }
@@ -76,6 +85,7 @@ public class FileFormaterController {
                         i = end;
                         stats.appendDatesReformatted(1);
                     } else {
+                        if (line.charAt(i) == '*' && i + 1 < line.length() && line.charAt(i + 1) == '#') continue;
                         writer.write(Character.toString(line.charAt(i)));
                     }
                 }
