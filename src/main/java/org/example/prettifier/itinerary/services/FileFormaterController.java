@@ -106,7 +106,7 @@ public class FileFormaterController {
 
     private String isCityNeed (String airport_code, boolean is_city_need) {
         return (is_city_need)
-                ? Locale.of("", airportsData.getLookup().get(airport_code).getIso_country()).getDisplayCountry(Locale.ENGLISH)
+                ? airportsData.getLookup().get(airport_code).getMunicipality()
                 : airportsData.getLookup().get(airport_code).getName();
     }
 
